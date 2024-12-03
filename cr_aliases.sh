@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ALIAS_NAME="crep"
+CREATE_REPOSITORY_ALIAS="crep"
 SCRIPT_PATH="$(pwd)/sh/create_repository.sh"
 SHELL_RC="$HOME/.bashrc"
 
@@ -10,19 +10,19 @@ if [ ! -f "$SCRIPT_PATH" ]; then
 fi
 
 chmod +x "$SCRIPT_PATH"
-if grep -q "alias $ALIAS_NAME=" "$SHELL_RC"; then
-    echo "Alias '$ALIAS_NAME' already exists in $SHELL_RC"
+if grep -q "alias $CREATE_REPOSITORY_ALIAS=" "$SHELL_RC"; then
+    echo "Alias '$CREATE_REPOSITORY_ALIAS' already exists in $SHELL_RC"
     source "$SHELL_RC"
     exit 1
 else
-    echo "alias $ALIAS_NAME='$SCRIPT_PATH'" >> "$SHELL_RC"
-    echo "Alias '$ALIAS_NAME' added to $SHELL_RC"
+    echo "alias $CREATE_REPOSITORY_ALIAS='$SCRIPT_PATH'" >> "$SHELL_RC"
+    echo "Alias '$CREATE_REPOSITORY_ALIAS' added to $SHELL_RC"
 fi
 
 source "$SHELL_RC"
 
-if alias "$ALIAS_NAME" &>/dev/null; then
-    echo "Alias '$ALIAS_NAME' is now available in the current shell."
+if alias "$CREATE_REPOSITORY_ALIAS" &>/dev/null; then
+    echo "Alias '$CREATE_REPOSITORY_ALIAS' is now available in the current shell."
 else
-    echo "Warning: Alias '$ALIAS_NAME' could not be loaded. Try opening a new terminal."
+    echo "Warning: Alias '$CREATE_REPOSITORY_ALIAS' could not be loaded. Try opening a new terminal."
 fi

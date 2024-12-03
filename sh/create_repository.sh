@@ -2,7 +2,7 @@
 
 case $# in
     1)
-        PROJECT_PATH=$(pwd)
+        PROJECT_PATH=$HOME
         PROJECT_NAME=$1
         ;;
     2)
@@ -38,5 +38,7 @@ fi
     git add $FULL_PATH/README.md
     git commit -m "first commit - repositório configurado"
 ) > /dev/null 2>&1
+
+echo "Repository created at $FULL_PATH"
 
 exit 0

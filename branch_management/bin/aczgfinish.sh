@@ -1,79 +1,81 @@
 #!/bin/bash
 
+show_usage() {
+    echo "Usage: command [arg]" >&2
+    echo "Options:" >&2
+    echo "-d: delete remote branch" >&2
+    exit 1
+}
+
+show_current_branch() {
+    echo "Now on branch:"
+    git branch --show-current 2> /dev/null
+}
+
 case $# in
     0)
-        echo "Starting..."
+        DELETE_REMOTE=false
+        ;;
+    1)
+        if [ "$1" == "-d" ]; then
+            DELETE_REMOTE=true
+        else 
+            show_usage
+        fi
         ;;
     *)
-        echo "Usage: $0"
-        exit 1
+        show_usage
         ;;
-
 esac
 
-(
-    # Check if the current directory is a git repository
-    git status
+git status > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Not a git repository." >&2
+    exit 2
+fi
+
+CURRENT_BRANCH=$(git branch --show-current)
+echo "$CURRENT_BRANCH" | grep -q '^feat-' || {
+    echo "Error: Not on a feature branch." >&2
+    exit 3
+}
+
+git checkout master >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    git checkout main >/dev/null 2>&1
     if [ $? -ne 0 ]; then
-        exit 2
-    fi
-
-    # Check if the current branch is a feature branch
-    CURRENT_BRANCH=$(git branch --show-current)
-    echo "$CURRENT_BRANCH" | grep -q '^feat-' || {
-        exit 3
-    }
-
-    # Merge the feature branch into master or main
-    git checkout master
-    if [ $? -ne 0 ]; then
-        git checkout main
-        if [ $? -ne 0 ]; then
-            exit 4
-        fi
-    fi
-
-    git merge "$CURRENT_BRANCH"
-
-    # Delete the feature branch
-    git branch -d "$CURRENT_BRANCH"
-    if [ $? -ne 0 ]; then
-        exit 5
-    fi
-
-    git push origin --delete "$CURRENT_BRANCH"
-    if [ $? -ne 0 ]; then
-        exit 6
-    fi
-
-) > /dev/null 2>&1
-
-
-case $? in
-    0)
-        echo "Finished."
-        exit 0
-        ;;
-    2)
-        echo "Error: Not a git repository."
-        exit 2
-        ;;
-    3)
-        echo "Error: Not on a feature branch."
-        exit 3
-        ;;
-    4)
-        echo "Error: Failed to checkout master or main branch."
+        echo "Error: Failed to find master or main branch." >&2
         exit 4
-        ;;
-    5)  
-        echo "Error: Failed to delete local branch."
-        exit 5
-        ;;
-    6)
-        echo "Trying to delete remote branch..."
-        echo "Remote branch deletion failed."
-        echo "Remote branch probably does not exist."
-        exit 0
-        ;;
-esac
+    fi
+fi
+
+git merge "$CURRENT_BRANCH" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to merge $CURRENT_BRANCH into master or main." >&2
+    exit 5
+fi
+
+git branch -d "$CURRENT_BRANCH" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to delete local branch." >&2
+    exit 6
+fi
+
+echo "Branch $CURRENT_BRANCH merged and deleted locally."
+
+if [ "$DELETE_REMOTE" == "true" ]; then
+    echo "Trying to delete remote branch..."
+    git push origin --delete "$CURRENT_BRANCH" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to delete remote branch." >&2
+        echo "Check if branch $CURRENT_BRANCH exists on remote or if you have permission to delete it." >&2
+        show_current_branch
+        exit 7
+    fi
+fi
+
+echo "Branch $CURRENT_BRANCH deleted remotely."
+
+show_current_branch
+
+exit 0

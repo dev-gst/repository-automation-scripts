@@ -1,7 +1,10 @@
 #!/bin/bash
 
 CREATE_REPOSITORY_ALIAS="crep"
-SCRIPT_PATH="$(pwd)/sh/create_repository.sh"
+ACZG_INIT_ALIAS="aczginit"
+ACZG_FINISH_ALIAS="aczgfinish"
+
+SCRIPT_PATH="$(pwd)/cr_repo.sh"
 SHELL_RC="$HOME/.bashrc"
 
 if [ ! -f "$SCRIPT_PATH" ]; then
@@ -13,7 +16,7 @@ chmod +x "$SCRIPT_PATH"
 if grep -q "alias $CREATE_REPOSITORY_ALIAS=" "$SHELL_RC"; then
     echo "Alias '$CREATE_REPOSITORY_ALIAS' already exists in $SHELL_RC"
     source "$SHELL_RC"
-    exit 1
+    exit 2
 else
     echo "alias $CREATE_REPOSITORY_ALIAS='$SCRIPT_PATH'" >> "$SHELL_RC"
     echo "Alias '$CREATE_REPOSITORY_ALIAS' added to $SHELL_RC"

@@ -1,9 +1,6 @@
 #!/bin/bash
 
 CREATE_REPOSITORY_ALIAS="crep"
-ACZG_INIT_ALIAS="aczginit"
-ACZG_FINISH_ALIAS="aczgfinish"
-
 SCRIPT_PATH="$(pwd)/cr_repo.sh"
 SHELL_RC="$HOME/.bashrc"
 

@@ -2,7 +2,7 @@
 
 SHELL_RC="$HOME/.bashrc"
 
-ROOT_FOLDER="branch_management"
+ROOT_FOLDER="dev_automation"
 
 SOURCE_FOLDER="./$ROOT_FOLDER"
 SOURCE_BIN=$SOURCE_FOLDER/bin

@@ -1,6 +1,6 @@
-# Branch Management Scripts
+# Branch Management and Automation Scripts
 
-This project provides a set of scripts to manage Git branches and repositories, including creating new project directories, initializing Git repositories, and setting up aliases for easy execution.
+This project provides a set of scripts to manage Git branches, automate Gradle tests, and set up project environments. The scripts include creating new project directories, initializing Git repositories, setting up aliases, and scheduling Gradle tests.
 
 ## Files
 
@@ -8,6 +8,9 @@ This project provides a set of scripts to manage Git branches and repositories, 
 - `aczginit.sh`: This script creates a new feature branch in a Git repository.
 - `aczgfinish.sh`: This script merges a feature branch into the master or main branch and optionally deletes the remote branch.
 - `cr_repo.sh`: This script creates a new project directory, initializes a Git repository, and creates a README file.
+- `gradle_test.sh`: This script runs Gradle tests and logs the output.
+- `gradlelogs.sh`: This script displays the Gradle test logs.
+- `schedule_gradle_test.sh`: This script schedules the `gradle_test.sh` script to run at specified times using cron.
 
 ## Usage
 
@@ -58,6 +61,32 @@ This project provides a set of scripts to manage Git branches and repositories, 
     - `[project_path]`: (Optional) The path where the project directory will be created. If not provided, the project will be created in the user's home directory.
     - `<project_name>`: The name of the project directory to be created.
 
+### Running Gradle Tests
+
+1. Use the `gradletest` alias to run Gradle tests and log the output:
+
+    ```shell
+    gradletest
+    ```
+
+### Viewing Gradle Test Logs
+
+1. Use the `gradlelogs` alias to display the Gradle test logs:
+
+    ```shell
+    gradlelogs
+    ```
+
+### Scheduling Gradle Tests
+
+1. Use the `schedule_gradle_test` alias to schedule the gradle_test.sh script to run at specified times using cron:
+
+    ```shell
+    schedule_gradle_test [time]
+    ```
+
+    - `[time]`: (Optional) The cron time format to schedule the script. If not provided, the default time `0 1 * * *` will be used.
+
 ## Scripts
 
 ### setup.sh
@@ -66,8 +95,8 @@ This script sets up the environment by copying necessary files and creating alia
 
 #### Functionality
 
-- Copies the branch_management folder to the user's home directory.
-- Creates aliases for the scripts in the bin directory.
+- Copies the dev_automation folder to the user's home directory.
+- Creates aliases for the scripts in the `bin` directory.
 - Adds the aliases to the user's shell configuration file (e.g., `~/.bashrc`).
 
 ### aczginit.sh
@@ -102,3 +131,34 @@ This script creates a new project directory, initializes a Git repository, and c
 - Initializes a Git repository in the project directory.
 - Creates a README.md file with an initial message.
 - Commits the initial setup to the Git repository.
+
+### gradle_test.sh
+
+This script runs Gradle tests and logs the output.
+
+#### Functionality
+
+- Sources environment variables from a `.env` file.
+- Runs the `gradlew clean test` command.
+- Logs the output to `gradle_test.log`.
+
+### gradlelogs.sh
+
+This script displays the Gradle test logs.
+
+#### Functionality
+
+- Sources environment variables from a `.env` file.
+- Displays the contents of `gradle_test.log` using `less`.
+
+### schedule_gradle_test.sh
+
+This script schedules the `gradle_test.sh` script to run at specified times using cron.
+
+#### Functionality
+
+- Accepts one optional argument: `[time]`.
+- Validates the cron time format.
+- Schedules the `gradle_test.sh` script to run at the specified time.
+- Removes duplicate cron jobs for the script.
+- Adds the new cron job to the user's crontab.

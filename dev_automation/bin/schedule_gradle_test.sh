@@ -5,9 +5,9 @@ DEFAULT_TIME="0 1 * * *"
 GRADLE_TEST_SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")/$GRADLE_TEST_SCRIPT_NAME"
 
 remove_duplicates() {
-    local script_path="$1"
+    local script_name="$1"
 
-    crontab -l | awk -v deletion_pattern="$script_path" '$0 !~ deletion_pattern' | crontab - >/dev/null 2>&1
+    crontab -l | awk -v deletion_pattern="$script_name" '$0 !~ deletion_pattern' | crontab - >/dev/null 2>&1
 }
 
 save_time_format() {
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
     exit 3
 fi
 
-remove_duplicates "$GRADLE_TEST_SCRIPT_PATH"
+remove_duplicates "$GRADLE_TEST_SCRIPT_NAME"
 save_time_format "$TIME" "$GRADLE_TEST_SCRIPT_PATH"
 if [ $? -eq 1 ]; then
     echo "Error: Invalid time format"

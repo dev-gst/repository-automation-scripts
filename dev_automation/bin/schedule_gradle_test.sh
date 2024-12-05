@@ -27,10 +27,7 @@ save_time_format() {
     fi
 }
 
-echo "Please, ensure you have java and cron service installed and running on your system"
-echo "Please, make sure you export JAVA_HOME in the script $GRADLE_TEST_SCRIPT_PATH"
-echo "Please, make sure you have the correct path to the gradle project in the script $GRADLE_TEST_SCRIPT_PATH"
-echo "This script will schedule the execution of $GRADLE_TEST_SCRIPT_PATH"
+echo "Please, ensure you have a configured .env file in the same directory as this script"
 case $# in
     0)
         TIME=$DEFAULT_TIME

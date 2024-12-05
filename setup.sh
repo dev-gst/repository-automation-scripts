@@ -31,6 +31,8 @@ declare -A ALIASES
 ALIASES["aczginit"]="$TARGET_BIN/aczginit.sh"
 ALIASES["aczgfinish"]="$TARGET_BIN/aczgfinish.sh"
 ALIASES["crep"]="$TARGET_BIN/cr_repo.sh"
+ALIASES["gradletest"]="$TARGET_BIN/schedule_gradle_test.sh"
+ALIASES["gradlelogs"]="$TARGET_BIN/gradlelogs.sh"
 
 for ALIAS in "${!ALIASES[@]}"; do
     SCRIPT_PATH="${ALIASES[$ALIAS]}"

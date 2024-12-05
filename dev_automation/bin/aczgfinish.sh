@@ -72,9 +72,9 @@ if [ "$DELETE_REMOTE" == "true" ]; then
         show_current_branch
         exit 7
     fi
+    
+    echo "Branch $CURRENT_BRANCH deleted remotely."
 fi
-
-echo "Branch $CURRENT_BRANCH deleted remotely."
 
 show_current_branch
 

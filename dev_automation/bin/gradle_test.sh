@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export JAVA_HOME='path/to/java'
+
 GRADLE_PROJECT_PATH="/path/to/gradle/project"
 GRADLEW_PATH="$GRADLE_PROJECT_PATH/gradlew"
 
@@ -13,3 +15,5 @@ fi
     $GRADLEW_PATH clean test
 
 ) 2>&1 | tee $GRADLE_PROJECT_PATH/gradle_test.log
+
+printf "\nLog saved to %s\n" "$GRADLE_PROJECT_PATH/gradle_test.log"

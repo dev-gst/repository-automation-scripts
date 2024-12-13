@@ -16,19 +16,21 @@ This project provides a set of scripts to manage Git branches, automate Gradle t
 
 ### Setting Up the Environment
 
-1. Ensure `setup.sh` is executable:
+1. Rename .env.template to .env and fill in the necessary environment variables.
+
+2. Ensure `setup.sh` is executable:
 
     ```shell
     chmod u+x setup.sh
     ```
 
-2. Run `setup.sh` to set up the environment and create aliases:
+3. Run `setup.sh` to set up the environment and create aliases:
 
     ```shell
     ./setup.sh
     ```
 
-3. Open a new terminal to use the aliases.
+4. Open a new terminal to use the aliases.
 
 ### Creating a New Feature Branch
 
